@@ -2,7 +2,7 @@ USE employees;
 
 -- make up departments for the employees with Insert INTO
 
-INSERT INTO departments(name)
+INSERT INTO department(department_name)
 VALUES ('Finance'),
        ('Marketing'),
        ('Human Resources'),
@@ -11,7 +11,7 @@ VALUES ('Finance'),
        ('Engineering');
 
 -- make up roles  and salaries for those roles  and a department id number
-INSERT INTO roles (title, salary, department_id)
+INSERT INTO role (title, salary, department_id)
 VALUES ('Finance Manager', 85000, 1),
        ('Marketing Specialist', 65000, 2),
        ('HR Consultant', 40000, 3),
