@@ -1,6 +1,8 @@
 # Employee-Tracker-SQL-Challenge-12
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
+## Description
+
 The Employee Tracker is a command-line application that allows you to manage employees, departments, and roles in a company. The application is built using Node.js and MySQL to handle database operations.
 
 ## Table of Contents
@@ -31,7 +33,7 @@ Update an employee's role.
 
 ## Contributing
 
-Contributions are welcome! If you find any issues or want to add new features, please feel free to open an issue or submit a pull request.
+Contributions are welcome! If you find any issues or want to add new features, please feel free to open an issue or expand upon the base code.
 
 ## License
 
