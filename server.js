@@ -2,7 +2,7 @@ const db = require('./config/connection');
 const { prompt } = require('inquirer');
 const { printTable } = require('console-table-printer');
 
-
+// create a Menu so the user can interact with and view different parts of the database
 const mainMenu = () => {
     prompt({
         type: "list",
@@ -38,6 +38,7 @@ const mainMenu = () => {
     });
 };
 
+// create a function where the can get a table of the different departments
 const viewDepartments = () => {
     db.promise().query('SELECT department_name AS Department FROM department').then(([departmentData]) => {
         printTable(departmentData);
@@ -45,6 +46,7 @@ const viewDepartments = () => {
     });
 };
 
+// create a function where the user can get a table of teh different roles withe the title and salary and department
 const viewRoles = () => {
     db.promise().query('SELECT title, salary, department_id FROM role LEFT JOIN department ON role.department_id = department.id').then(([roleData]) => {
         printTable(roleData);
@@ -52,6 +54,7 @@ const viewRoles = () => {
     });
 };
 
+// create a function where the user can see all the information from the staff 
 const viewStaff = () => {
     db.promise().query('SELECT staff.id AS Id, CONCAT(staff.first_name," ", staff.last_name) AS Name, role.title AS Title, role.salary AS Salary, department.department_name AS Department FROM staff LEFT JOIN role on staff.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN staff manager on manager.id = staff.manager_id;').then(([staffData]) => {
         printTable(staffData);
@@ -59,6 +62,7 @@ const viewStaff = () => {
     });
 };
 
+// a function where they can add a new department
 const addDepartment = () => {
     prompt({
         type: "input",
@@ -68,16 +72,16 @@ const addDepartment = () => {
         db.promise()
             .query('INSERT INTO department (department_name) VALUES (?)', [departmentName])
             .then(() => {
-                console.log("Department added successfully!");
-                mainMenu();
+               mainMenu();
             })
             .catch((err) => {
-                console.error("Error adding department:", err);
+                console.error(err);
                 mainMenu();
             });
     });
 };
 
+// a function where they can add a new role
 const addRole = async () => {
     try {
         const [departments] = await db.promise().query('SELECT * FROM department');
@@ -115,6 +119,7 @@ const addRole = async () => {
     }
 };
 
+// a function where they can add a new employee
 const addEmployee = () => {
     db.promise()
         .query('SELECT * FROM role')
@@ -155,11 +160,10 @@ const addEmployee = () => {
                         db.promise()
                             .query('INSERT INTO staff (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [firstName, lastName, roleId, managerId])
                             .then(() => {
-                                console.log("Employee added successfully!");
                                 mainMenu();
                             })
                             .catch((err) => {
-                                console.error("Error adding employee:", err);
+                                console.error(err);
                                 mainMenu();
                             });
                     });
@@ -167,6 +171,7 @@ const addEmployee = () => {
         });
 };
 
+// a function where they can pick an employee and change their role 
 const updateEmployeeRole = () => {
     db.promise()
         .query('SELECT * FROM staff')
@@ -197,11 +202,10 @@ const updateEmployeeRole = () => {
                         db.promise()
                             .query('UPDATE staff SET role_id = ? WHERE id = ?', [roleId, employeeId])
                             .then(() => {
-                                console.log("Employee Updated");
                                 mainMenu();
                             })
                             .catch((err) => {
-                                console.error("Error updating employee role:", err);
+                                console.error(err);
                                 mainMenu();
                             });
                     });
